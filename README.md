@@ -6,3 +6,6 @@
 ![Image text](Png/0001.gif)
 英雄联盟-亚索 
 ![Image text](Png/YaSuo.gif)
+
+虹猫蓝兔七侠传：
+![Image text](Png/HongMao.gif)

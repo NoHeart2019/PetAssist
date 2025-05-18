@@ -9,3 +9,6 @@
 
 虹猫蓝兔七侠传：
 ![Image text](Png/HongMao.gif)
+
+哪吒闹海
+![Image text](Png/NeZha.gif)

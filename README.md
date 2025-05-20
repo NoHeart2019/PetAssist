@@ -12,3 +12,6 @@
 
 #哪吒闹海\
 ![Image text](Png/NeZha.gif)
+
+#圣斗士星矢\
+![Image text](Png/XingShi.gif)

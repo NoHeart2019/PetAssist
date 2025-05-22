@@ -1,12 +1,46 @@
-/*
-	由于依赖自身写的C32 Control Lib库。
-	此前开源了第一个版本。现在的版本还没决定要不要开源。
-	其实就是对win32简单的封装没有任何技术含量。
-	但是可以根据以下内容自己去改改。
-	代码非常简单。
+#pragma once
+#include <atlstr.h>
 
-*/
 
+#include "MisUtil.h"
+#define YUAN_SHEN_DIRECTORY     L"XueXiZhuShou\\YuanShen\\"
+#include <dwmapi.h>
+
+
+#define  WC32_HOVER_FRAME  L"C32HoverFrame"
+
+#define  IDM_FREE_SOFTWARE						WM_APP + 0x100
+
+
+
+#define  IDM_SHOW_WINDOW						WM_APP + 0x200
+#define  IDM_HIDE_WINDOW					    WM_APP + 0x201 
+
+#define  IDM_TEST_1								WM_APP + 0x900 //测试
+#define  IDM_TEST_2								WM_APP + 0x901 //测试
+#define  IDM_TEST_3								WM_APP + 0x902 //测试
+
+
+#define  IDM_TODAY_READ    WM_USER + 0x110
+
+
+
+
+enum E32MouseEvent
+{
+	 E32MouseEventUnCapture,
+	 E32MouseEventEnter,
+	 E32MouseEventHover,
+	 E32MouseEventLeave,
+};
+
+inline BOOL C32MouseEventIsTrack(E32MouseEvent Event)
+{
+	if (Event != E32MouseEventUnCapture && Event != E32MouseEventLeave)
+		return TRUE;
+
+	return FALSE;
+}
 
 class C32HoverMsg : public C32Window
 {
@@ -21,7 +55,7 @@ public:
 
 	}
 public:
-	BOOL Register()
+	static BOOL Register()
 	{
 		DWORD Atom = RegisterClassEx32(L"WC_C32HoverMsg");
 		ZxDebugEx((__FUNCTION__"():: Atom: 0x%08x \n", Atom));
@@ -275,12 +309,12 @@ public:
 	
 	~CHoverFrame()
 	{
-		//PostQuitMessage(0); 		
+		PostQuitMessage(0); 		
 	}
 
 	DWORD Register()
 	{
-		DWORD Atom = RegisterClassEx32(WC32_HOVER_FRAME, NULL,  NULL, IDC_TOOLBOX, IDI_TOOLBOX, IDI_TOOLBOX, NULL);
+		DWORD Atom = RegisterClassEx32(WC32_HOVER_FRAME, NULL,  NULL, IDC_PETASSIST, IDI_PETASSIST, IDI_PETASSIST, NULL);
 
 		ZxDebugEx((__FUNCTION__"():: Atom : 0x%08x \n", Atom));
 
@@ -295,7 +329,7 @@ public:
 			DWORD dwExStyle = WS_EX_TOPMOST |WS_EX_TOOLWINDOW;
 			DWORD dwStyle =  WS_POPUP | WS_VISIBLE;
 			
-			HWND Hwnd = Create(dwExStyle, WC32_HOVER_FRAME, LANG_MAIN_TITLE, dwStyle,  CW_USEDEFAULT, CW_USEDEFAULT,  CW_USEDEFAULT,  CW_USEDEFAULT, Parent);
+			HWND Hwnd = Create(dwExStyle, WC32_HOVER_FRAME, L"", dwStyle,  CW_USEDEFAULT, CW_USEDEFAULT,  CW_USEDEFAULT,  CW_USEDEFAULT, Parent);
 			if (Hwnd)
 			{
 				C32SetCenterPosDesktop(Hwnd);
@@ -447,7 +481,7 @@ public:
 			}else if(C32CommandMenuId(wParam) == IDM_EXIT)
 			{
 				DeleteTray();
-				PostQuitMessage(0);
+				PostMessage(m_Hwnd, WM_DESTROY, 0 , 0);
 			}else if(C32CommandMenuId(wParam) == IDM_TEST_1)
 			{
 				C32HoverMsg* Msg = new C32HoverMsg();
@@ -457,7 +491,7 @@ public:
 				Msg->Show(SW_SHOW);
 			}else if(C32CommandMenuId(wParam) == IDM_FREE_SOFTWARE)
 			{
-				CreateDonationWindow(m_Hwnd, L"感谢您的认可，我会继续努力");
+				CreateDonationWindow(m_Hwnd, L"感谢您的支持");
 			}
 				
 		}
@@ -595,7 +629,7 @@ public:
 		m_TrayMenu.AppendItemString( IDM_TEST_1, L"跳舞");
 		m_TrayMenu.AppendItemString( IDM_EXIT, L"退出");
 
-		AddTray(IDI_TOOLBOX, L"宠物助手");
+		AddTray(IDI_PETASSIST, L"宠物助手");
 	}
 
 	BOOL AddTray(int iIcon, LPCWSTR Tip, UINT uId = 1)
@@ -640,14 +674,12 @@ public:
 };
 
 
-BOOL CreateHoverFrame()
-{
-	g_HoverFrame = new CHoverFrame();
+//
+// 创建悬浮窗口
+//
+BOOL CreateHoverFrame();
 
-	g_HoverFrame->CreateControl();
 
-	g_HoverFrame->m_iAccelerator = IDC_TOOLBOX;
 
-	g_HoverFrame->Loop();
-	return TRUE;
-}
+
+

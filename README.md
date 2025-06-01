@@ -17,3 +17,6 @@ C32Control 目录是自己封装的win32 Lib 库。
 
 #圣斗士星矢\
 ![Image text](Png/XingShi.gif)
+
+#如来佛\
+![Image text](Png/RuLaiFo.PNG)

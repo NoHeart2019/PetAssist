@@ -20,3 +20,6 @@ C32Control 目录是自己封装的win32 Lib 库。
 
 #如来佛\
 ![Image text](Png/RuLaiFo.PNG)
+
+#如来佛-3D\
+![Image text](Png/RuLai3D.png)
